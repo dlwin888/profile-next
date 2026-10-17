@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import TextLab from "@/components/TextLab";
+import SiteStats from "@/components/SiteStats"; // 引入新组件
 
 export default function Home() {
   return (
     <main className="max-w-3xl mx-auto px-4 sm:px-6 pb-20">
       <Hero />
-      
+       {/* 插入统计组件 */}
+      <SiteStats />
       <div className="mb-10 flex items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-zinc-200">
         <div>
           <h2 className="text-xl font-bold text-zinc-800 mb-1">关于我</h2>
