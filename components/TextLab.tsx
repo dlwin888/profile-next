@@ -40,6 +40,28 @@ export default function TextLab() {
     }
   }
 
+  async function handleDelete(id: number) {
+    if (!window.confirm("确定要删除这条记录吗？")) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/history/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!res.ok) throw new Error("删除失败");
+
+      // 方案A：重新拉取历史记录（最简单）
+      fetchHistory();
+      
+      // 方案B：直接在前端过滤掉被删除的项（体验更快）
+      // setHistory(history.filter(item => item.id !== id));
+    } catch (err) {
+      alert("删除出错，请重试");
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
     fetchHistory();
   }, []);
@@ -157,13 +179,24 @@ export default function TextLab() {
         ) : (
           <ul className="space-y-2">
             {history.map((item) => (
-              <li key={item.id} className="flex justify-between items-center p-3 rounded-lg hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-colors">
+              <li key={item.id} className="flex justify-between items-center p-3 rounded-lg hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-colors group">
                 <span className="text-zinc-700 truncate mr-4 text-sm font-mono bg-zinc-100 px-2 py-1 rounded">
                   {item.text.slice(0, 30)}{item.text.length > 30 ? "..." : ""}
                 </span>
-                <span className="text-xs text-zinc-500 shrink-0">
-                  {item.char_count} 字符
-                </span>
+                
+                <div className="flex items-center gap-4 shrink-0">
+                  <span className="text-xs text-zinc-500">
+                    {item.char_count} 字符
+                  </span>
+                  {/* 新增的删除按钮 */}
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="text-red-400 hover:text-red-600 text-sm opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="删除记录"
+                  >
+                    删除
+                  </button>
+                </div>
               </li>
             ))}
           </ul>
