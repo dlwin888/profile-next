@@ -1,28 +1,54 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import Hero from "@/components/Hero";
-import TextLab from "@/components/TextLab";
-import SiteStats from "@/components/SiteStats"; // 引入新组件
+
+interface ProfileData {
+  heroTitle: string;
+  heroSubtitle: string;
+  featuredWork: { kicker: string; title: string; copy: string; linkLabel: string };
+  identity: { motto: string; learning: string };
+}
 
 export default function Home() {
-  return (
-    <main className="max-w-3xl mx-auto px-4 sm:px-6 pb-20">
-      <Hero />
-       {/* 插入统计组件 */}
-      <SiteStats />
-      <div className="mb-10 flex items-center justify-between bg-white p-6 rounded-2xl shadow-sm border border-zinc-200">
-        <div>
-          <h2 className="text-xl font-bold text-zinc-800 mb-1">关于我</h2>
-          <p className="text-zinc-500 text-sm">我是一名正在学习全栈开发的开发者。</p>
-        </div>
-        <Link 
-          href="/lab" 
-          className="shrink-0 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium rounded-lg transition-colors"
-        >
-          进入独立版 &rarr;
-        </Link>
-      </div>
+  const [data, setData] = useState<ProfileData | null>(null);
 
-      <TextLab />
+  useEffect(() => {
+    fetch("https://api.m3u8player.com.cn/api/profile")
+      .then((res) => res.json())
+      .then((d) => setData(d))
+      .catch((err) => console.error(err));
+  }, []);
+
+  if (!data) return <div className="p-10 text-center text-zinc-400">加载中...</div>;
+
+  return (
+    <main className="max-w-2xl mx-auto px-6 py-20 space-y-16">
+      {/* 头部信息 */}
+      <header className="text-center">
+        <h1 className="text-4xl font-bold mb-4">{data.heroTitle}</h1>
+        <p className="text-zinc-500">{data.heroSubtitle}</p>
+      </header>
+
+      {/* 作品区 */}
+      <section className="text-center">
+        <p className="text-sm text-zinc-400 mb-2">{data.featuredWork.kicker}</p>
+        <h2 className="text-2xl font-bold mb-2">{data.featuredWork.title}</h2>
+        <p className="text-zinc-600 mb-6">{data.featuredWork.copy}</p>
+        
+        <Link 
+          href="/lab"
+          className="inline-block px-6 py-2 bg-zinc-900 text-white rounded hover:bg-zinc-800 transition-colors"
+        >
+          {data.featuredWork.linkLabel}
+        </Link>
+      </section>
+
+      {/* 身份区 */}
+      <section className="text-center border-t border-zinc-200 pt-10">
+        <p className="text-lg font-medium mb-1">“{data.identity.motto}”</p>
+        <p className="text-zinc-500 text-sm">{data.identity.learning}</p>
+      </section>
     </main>
   );
 }
