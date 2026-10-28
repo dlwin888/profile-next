@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Hero from "@/components/Hero"; // 引入 Hero 组件
 
 interface ProfileData {
   heroTitle: string;
@@ -24,11 +25,9 @@ export default function Home() {
 
   return (
     <main className="max-w-2xl mx-auto px-6 py-20 space-y-16">
-      {/* 头部信息 */}
-      <header className="text-center">
-        <h1 className="text-4xl font-bold mb-4">{data.heroTitle}</h1>
-        <p className="text-zinc-500">{data.heroSubtitle}</p>
-      </header>
+      
+      {/* 使用 Hero 组件并传入数据 */}
+      <Hero title={data.heroTitle} subtitle={data.heroSubtitle} />
 
       {/* 作品区 */}
       <section className="text-center">
