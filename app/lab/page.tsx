@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+// 👇 新增这一行：强制此页面动态渲染，跳过构建时的静态预渲染
+export const dynamic = "force-dynamic";
 const [aiResult, setAiResult] = useState<string | null>(null);
 const [aiLoading, setAiLoading] = useState(false);
 
