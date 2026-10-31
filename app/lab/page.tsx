@@ -58,6 +58,24 @@ export default function LabPage() {
     }
   }
 
+  // 新增的删除逻辑
+  async function handleDelete(id: number) {
+    if (!window.confirm("确定要删除这条记录吗？")) return;
+
+    try {
+      const res = await fetch(`/api/history/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("删除失败");
+
+      // 删除成功后，前端过滤掉这条记录，实现无缝刷新
+      setHistory((prev) => prev.filter((item) => item.id !== id));
+    } catch (err) {
+      alert("删除出错，请重试");
+    }
+  }
+
   return (
     <main className="max-w-2xl mx-auto px-6 py-12">
       <Link href="/" className="text-zinc-500 hover:text-zinc-900 mb-8 inline-block">
@@ -127,9 +145,20 @@ export default function LabPage() {
               ) : (
                 <ul className="space-y-3">
                   {history.map((item) => (
-                    <li key={item.id} className="p-3 bg-zinc-50 rounded border border-zinc-100">
-                      <p className="text-sm text-zinc-800 font-mono truncate">{item.text}</p>
-                      <p className="text-xs text-zinc-400 mt-1">{item.char_count} 字符 • {item.created_at}</p>
+                    <li key={item.id} className="p-3 bg-zinc-50 rounded border border-zinc-100 flex justify-between items-start group">
+                      <div className="overflow-hidden">
+                        <p className="text-sm text-zinc-800 font-mono truncate">{item.text}</p>
+                        <p className="text-xs text-zinc-400 mt-1">{item.char_count} 字符 • {item.created_at}</p>
+                      </div>
+                      
+                      {/* 删除按钮：平时半透明，鼠标悬浮时变红 */}
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="text-zinc-400 hover:text-red-500 hover:bg-red-50 p-1 rounded transition-colors shrink-0 ml-2"
+                        title="删除记录"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                      </button>
                     </li>
                   ))}
                 </ul>
