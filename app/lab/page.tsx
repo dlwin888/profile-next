@@ -30,7 +30,7 @@ export default function LabPage() {
     setResult(null);
 
     try {
-      const res = await fetch("https://api.m3u8player.com.cn/api/analyze", {
+      const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text }),
@@ -48,7 +48,7 @@ export default function LabPage() {
   async function openHistory() {
     setShowHistory(true);
     try {
-      const res = await fetch("https://api.m3u8player.com.cn/api/history", {
+      const res = await fetch("/api/history", {
         credentials: "include",
       });
       const data = await res.json();

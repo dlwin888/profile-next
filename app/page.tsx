@@ -15,7 +15,7 @@ export default function Home() {
   const [data, setData] = useState<ProfileData | null>(null);
 
   useEffect(() => {
-    fetch("https://api.m3u8player.com.cn/api/profile")
+    fetch("/api/profile")
       .then((res) => res.json())
       .then((d) => setData(d))
       .catch((err) => console.error(err));
