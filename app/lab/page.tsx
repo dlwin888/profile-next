@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+const [aiResult, setAiResult] = useState<string | null>(null);
+const [aiLoading, setAiLoading] = useState(false);
 
 interface HistoryItem {
   id: number;
@@ -76,6 +78,27 @@ export default function LabPage() {
     }
   }
 
+  async function handleAIAnalyze() {
+    if (!text.trim()) return;
+    setAiLoading(true);
+    setAiResult(null);
+
+    try {
+      const res = await fetch("/api/ai-analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) throw new Error("AI 请求失败");
+      const data = await res.json();
+      setAiResult(data.result);
+    } catch (err) {
+      alert("AI 分析失败，请稍后再试");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
   return (
     <main className="max-w-2xl mx-auto px-6 py-12">
       <Link href="/" className="text-zinc-500 hover:text-zinc-900 mb-8 inline-block">
@@ -128,6 +151,27 @@ export default function LabPage() {
           </div>
         </div>
       )}
+
+      {/* AI 分析入口 */}
+      <div className="mt-6 pt-4 border-t border-blue-200">
+        <button
+          onClick={handleAIAnalyze}
+          disabled={aiLoading}
+          className="w-full py-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+        >
+          {aiLoading ? "🤖 AI 思考中..." : "🤖 AI 深度解析"}
+        </button>
+
+        {/* AI 结果展示区 */}
+        {aiResult && (
+          <div className="mt-4 p-4 bg-white rounded-lg border border-purple-100">
+            <h4 className="text-sm font-bold text-purple-700 mb-2">AI 分析报告</h4>
+            <p className="text-sm text-zinc-700 whitespace-pre-wrap leading-relaxed">
+              {aiResult}
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* 历史记录弹窗 Modal */}
       {showHistory && (
