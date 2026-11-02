@@ -4,6 +4,8 @@
 
 🔗 **在线体验**: [https://profile.m3u8player.com.cn](https://profile.m3u8player.com.cn)
 
+
+
 ## 📖 项目简介
 
 本项目打通了现代 Web 开发的全链路：从 Next.js 服务端渲染、FastAPI 后端接口、SQLite 数据持久化，到 Nginx 反向代理、HTTPS 生产环境部署，最后成功集成了智谱 AI (GLM-4) 大语言模型。
@@ -46,3 +48,6 @@ Nginx (公网 80/443 端口, HTTPS 加密)
                 ┌─────────┴─────────┐
                 ▼                   ▼
           SQLite (数据持久化)   智谱 AI API (大模型)
+```
+
+![timeOfLife](https://private-user-images.githubusercontent.com/5858748/692197890-528890f8-2676-4823-a81e-a7c834d036d5.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3OTM2MjI0NTIsIm5iZiI6MTc5MzYyMjE1MiwicGF0aCI6Ii81ODU4NzQ4LzY5MjE5Nzg5MC01Mjg4OTBmOC0yNjc2LTQ4MjMtYTgxZS1hN2M4MzRkMDM2ZDUucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI2MTEwMiUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNjExMDJUMTIyMjMyWiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9NDJiN2Q2YzYwZmE1ZDcwNjMwM2VjMWJmYTFjNTFjZDE2NTY3NzJjNzEwZWM0YWI2NTI4MGY5YzcyMzc3Nzk3OCZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmcmVzcG9uc2UtY29udGVudC10eXBlPWltYWdlJTJGcG5nIn0.jYkvPi-aB7eNoRo-9wE1LJfv5lN_uW4F443BvNea5Wk)
